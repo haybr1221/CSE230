@@ -417,5 +417,50 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# Mac files
+# Xcode
+#
+# General
 .DS_Store
+.idea/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Xcode user data
+xcuserdata/
+*.xcuserdatad
+*.xcworkspace/xcuserdata/
+
+# Build products
+build/
+DerivedData/
+
+# iOS specific
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Other
+*.hmap
+*.lock
+*.mode1v3
+*.mode2v3
+*.perspectivev3
