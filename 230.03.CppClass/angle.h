@@ -28,7 +28,86 @@ class TestAngle;
 class Angle
 {
    friend TestAngle;
-
+   private:
+   // Set private attributes and methods
+   double radians;
+   
+   /* Takes a radian as a parameter and reduce it to between 0 and 2π. For
+    example, 3π will become π (corresponding to 540° becoming 180°), π/2
+    staying unchanged (corresponding to 90°), and -7π becoming π (corresponding
+    to -1260° becoming 180°). */
+   double normalize(double radian)
+   {
+      if (radian < 0)
+      {
+         while (radian < 0)
+         {
+            cout << "less than zero";
+            cout << radian;
+            radian += TWO_PI;
+         }
+      };
+      
+      if (radian > TWO_PI)
+      {
+         while (radian > TWO_PI)
+         {
+            cout << "greater than 2n";
+            cout << radian;
+            radian -= TWO_PI;
+         }
+      };
+      
+      return radian;
+   }
+   
+   /* Takes a radians as a parameter and returns degrees. Does not utilize the
+    class's attribute. Note that the results must be normalized. */
+   double convertToDegrees(double radians)
+   {
+      return radians * (180/M_PI);
+   }
+   
+   /*  Takes a degrees as a parameter and returns radians. Does not utilize the
+    class's attribute. Note that the results must be normalized. */
+   double convertToRadians(double degrees)
+   {
+      return (M_PI/180) / degrees;
+   }
+   
+   public:
+   /* Takes no parameters and return the angle in degrees. */
+   double getDegrees() { return convertToDegrees(radians);};
+   
+   /*  Takes no parameters and return the angle in radians. */
+   double getRadians() { return radians; };
+   
+   /* Takes a degrees as a parameter and updates the attribute with the passed
+    parameter. If the parameter is above 360 or below zero, then it will "unwrap"
+    so the radians is between 0 and 2π. */
+   void setDegrees(double degrees)
+   {
+      // Convert to radians
+      double radians = convertToRadians(degrees);
+      radians = normalize(radians);
+   }
+   
+   /* Takes a radian as a parameter and updates the attribute with the passed
+    parameter. If the parameter is above 2π or below zero, then it will "unwrap." */
+   void setRadians(double radians)
+   {
+      radians = normalize(radians);
+   };
+   
+   /* Takes a ostream & out as a parameter display the value, in degrees, to
+    1 decimal place of accuracy. This out parameter can be treated exactly
+    the same as cout. You can use it with a.display(cout) if a is the name
+    of your object */
+   void display(ostream & out)
+   {
+      out.precision(1);
+      out << convertToDegrees(radians);
+   }
 };
 
 
