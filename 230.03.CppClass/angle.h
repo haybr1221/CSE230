@@ -11,10 +11,11 @@
  *      -total time in hours: reading the assignment, submitting, etc.
  **************************************************************/
 
+#define _USE_MATH_DEFINES
 #pragma once
 
 #define TWO_PI 6.28318530718
-
+#include <cmath>
 #include <math.h>    // for floor()
 #include <iostream>  // for cout
 #include <cassert>   // for assert()
@@ -41,22 +42,17 @@ class Angle
       if (radian < 0)
       {
          while (radian < 0)
-         {
-            cout << "less than zero";
-            cout << radian;
             radian += TWO_PI;
-         }
       };
       
       if (radian > TWO_PI)
       {
-         while (radian > TWO_PI)
-         {
-            cout << "greater than 2n";
-            cout << radian;
+
+         while (radian > TWO_PI) 
             radian -= TWO_PI;
-         }
+
       };
+      
       
       return radian;
    }
@@ -72,7 +68,7 @@ class Angle
     class's attribute. Note that the results must be normalized. */
    double convertToRadians(double degrees)
    {
-      return (M_PI/180) / degrees;
+      return degrees * (M_PI/180);
    }
    
    public:
