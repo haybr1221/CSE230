@@ -89,15 +89,15 @@ public:
     void setDegrees(double degrees)
     {
         // Convert to radians
-        double radians = convertToRadians(degrees);
-        radians = normalize(radians);
+        double newRadians = convertToRadians(degrees);
+        radians = normalize(newRadians);
     };
 
     /* Takes a radian as a parameter and updates the attribute with the passed
      parameter. If the parameter is above 2π or below zero, then it will "unwrap." */
-    void setRadians(double radians)
+    void setRadians(double newRadians)
     {
-        radians = normalize(radians);
+        radians = normalize(newRadians);
     };
 
     /* Takes a ostream & out as a parameter display the value, in degrees, to
