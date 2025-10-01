@@ -39,37 +39,42 @@ class Angle
     to -1260° becoming 180°). */
    double normalize(double radian)
    {
-      if (radian < 0)
-      {
-         while (radian < 0)
-            radian += TWO_PI;
-      };
-      
-      if (radian > TWO_PI)
-      {
+       if (radian < 0)
+       {
+           while (radian < 0)
+               radian += TWO_PI;
+       };
 
-         while (radian > TWO_PI) 
-            radian -= TWO_PI;
+       if (radian > TWO_PI)
+       {
 
-      };
-      
-      
-      return radian;
-   }
+           while (radian > TWO_PI)
+               radian -= TWO_PI;
+
+       };
+
+
+       return radian;
+   };
    
    /* Takes a radians as a parameter and returns degrees. Does not utilize the
     class's attribute. Note that the results must be normalized. */
    double convertToDegrees(double radians)
    {
-      return radians * (180/M_PI);
-   }
+       double normRadians = normalize(radians);
+       double degrees = normRadians * (180 / M_PI);
+
+       return degrees;
+   };
    
    /*  Takes a degrees as a parameter and returns radians. Does not utilize the
     class's attribute. Note that the results must be normalized. */
    double convertToRadians(double degrees)
    {
-      return degrees * (M_PI/180);
-   }
+       double radians = degrees * (M_PI / 180);
+       double normRadians = normalize(radians);
+       return normRadians;
+   };
    
    public:
    /* Takes no parameters and return the angle in degrees. */
@@ -83,27 +88,28 @@ class Angle
     so the radians is between 0 and 2π. */
    void setDegrees(double degrees)
    {
-      // Convert to radians
-      double radians = convertToRadians(degrees);
-      radians = normalize(radians);
-   }
+       // Convert to radians
+       double radians = convertToRadians(degrees);
+       radians = normalize(radians);
+   };
    
    /* Takes a radian as a parameter and updates the attribute with the passed
     parameter. If the parameter is above 2π or below zero, then it will "unwrap." */
    void setRadians(double radians)
    {
-      radians = normalize(radians);
+       radians = normalize(radians);
    };
    
    /* Takes a ostream & out as a parameter display the value, in degrees, to
     1 decimal place of accuracy. This out parameter can be treated exactly
     the same as cout. You can use it with a.display(cout) if a is the name
     of your object */
-   void display(ostream & out)
+   void display(ostream& out)
    {
-      out.precision(1);
-      out << convertToDegrees(radians);
-   }
+       out.precision(1);
+       out.setf(ios::fixed);
+       out << convertToDegrees(radians);
+   };
 };
 
 
