@@ -41,18 +41,15 @@ private:
     {
         if (radian < 0)
         {
-            while (radian < 0)
+           while (radian < 0)
                 radian += TWO_PI;
         };
 
         if (radian > TWO_PI)
         {
-
             while (radian > TWO_PI)
                 radian -= TWO_PI;
-
         };
-
 
         return radian;
     };
