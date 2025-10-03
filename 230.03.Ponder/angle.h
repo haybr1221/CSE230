@@ -38,18 +38,38 @@ public:
    double getDegrees() const { return radians * (180 / M_PI); }
    double getRadians() const { return radians; }
 
+
    // Setters
-   void setDegrees(double degrees) { radians = normalize(degrees * (M_PI / 180));}
+   void setDegrees(double degrees) { radians = convertToRadians(degrees);}
    void setRadians(double radians) { this->radians = normalize(radians); }
-   void setUp()                    { radians = normalize(0 * (M_PI / 180));}
-   void setDown()                  { radians = normalize(180 * (M_PI / 180));}
-   void setRight()                 { radians = normalize(90 * (M_PI / 180)); }
-   void setLeft()                  { radians = normalize(270 * (M_PI / 180)); }
-   void reverse()                  { radians = normalize(radians + (180 * (M_PI/180))); }
+   void setUp()                    { radians = convertToRadians(0);}
+   void setDown()                  { radians = convertToRadians(180);}
+   void setRight()                 { radians = convertToRadians(90); }
+   void setLeft()                  { radians = convertToRadians(270); }
+   void reverse()                  { radians = normalize(radians + convertToRadians(180)); }
    Angle& add(double delta)        { radians = normalize(radians + delta); return *this; }
 
 private:
    double normalize(double radians) const;
+   /* Takes a radians as a parameter and returns degrees. Does not utilize the
+    class's attribute. Note that the results must be normalized. */
+   double convertToDegrees(double radians)
+   {
+       double normRadians = normalize(radians);
+       double degrees = normRadians * (180 / M_PI);
+
+       return degrees;
+   };
+
+   /*  Takes a degrees as a parameter and returns radians. Does not utilize the
+    class's attribute. Note that the results must be normalized. */
+   double convertToRadians(double degrees)
+   {
+       double radians = degrees * (M_PI / 180);
+       double normRadians = normalize(radians);
+       return normRadians;
+   };
+
 
    double radians;   // 360 degrees equals 2 PI radians
 };
