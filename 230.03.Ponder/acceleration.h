@@ -30,8 +30,8 @@ class Acceleration
 
 public:
    // constructors
-   Acceleration()                       : ddx(-99.9), ddy(-88.8) { }
-   Acceleration(double ddx, double ddy) : ddx(-99.9), ddy(-88.8) { }
+   Acceleration()                       : ddx(0.0), ddy(0.0) { }
+   Acceleration(double ddx, double ddy) : ddx(ddx), ddy(ddy) { }
 
    // getters
    double getDDX()   const           { return this->ddx; }
