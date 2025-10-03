@@ -18,16 +18,17 @@
  *********************************************/
 void Acceleration::add(const Acceleration& acceleration)
 {
-   ddx = -99.9;
-   ddy = -88.8;
+   ddx += acceleration.getDDX();
+   ddy += acceleration.getDDY();
 }
 
 /*********************************************
  * ACCELERATION : SET
  *  set from angle and direction
  *********************************************/
-void Acceleration::set(const Angle & angle, double magnitude)
+void Acceleration::set(const Angle& angle, double magnitude)
 {
-   ddx = -99.9;
-   ddy = -88.8;
-}
+	ddx = magnitude * sin(angle.getRadians());
+	ddy = magnitude * cos(angle.getRadians());
+};
+
