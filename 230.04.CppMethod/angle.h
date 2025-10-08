@@ -13,7 +13,9 @@
 
 
 #define TWO_PI 6.28318530718
+#define _USE_MATH_DEFINES
 
+#include <cmath>     // for M_PI
 #include <math.h>    // for floor()
 #include <iostream>  // for cout
 #include <cassert>   // for assert()
@@ -109,7 +111,7 @@ class Angle
    
    // Constructors
    Angle()                 : radians(0.0)  {}                           // Default constructor
-   Angle(const Angle& rhs) : radians(rhs.radians)  {}                  // Copy constructor
+   Angle(const Angle& rhs) : radians(rhs.radians)  {}                   // Copy constructor
    Angle(double degrees)   : radians(convertToRadians(degrees))  {}     // Non-default constructor
 
    };
