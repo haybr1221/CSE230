@@ -19,7 +19,12 @@ using namespace std;
 
 list<string> arrayToList(string a[], int num)
 {
-   return list<string>();
+   list<string> newList;
+   for (auto index = 0; index < num; index++)
+   {
+      newList.push_back(a[index]);
+   }
+   return newList;
 }
 
 /*****************************
@@ -27,7 +32,12 @@ list<string> arrayToList(string a[], int num)
  *****************************/
 list<string> arrayToListBackwards(string a[], int num)
 {
-   return list<string>();
+   list<string> newList;
+   for (auto index = 0; index < num; index++)
+   {
+      newList.push_front(a[index]);
+   }
+   return newList;
 }
 
 /*****************************
@@ -35,7 +45,12 @@ list<string> arrayToListBackwards(string a[], int num)
  *****************************/
 vector<string> listToVector(const list<string> & l)
 {
-   return vector<string>();
+   vector<string> data;
+   for (auto item : l)
+   {
+      data.push_back(item);
+   }
+   return data;
 }
 
 /*****************************
@@ -43,7 +58,12 @@ vector<string> listToVector(const list<string> & l)
  *****************************/
 vector<string> listToVectorBackwards(const list<string>& l)
 {
-   return vector<string>();
+   vector<string> data;
+   for (auto rit = l.rbegin(); rit != l.rend(); rit++)
+   {
+      data.push_back(*rit);
+   }
+   return data;
 }
 
 /*****************************
