@@ -22,14 +22,19 @@ class Simulator
 {
 public:
    // set up the simulator
-   Simulator(const Position & posUpperRight) : ground(posUpperRight) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight)
+   {
+      posStar = Position(100.00, 300.00);
+      phase = 0;
+   }
        
    // display stuff on the screen
    void display();
   
-//   unsigned char phase;
-//   Angle a;
+   unsigned char phase;
+   Angle a;
    Ground ground;
+   Position posStar;
 };
 
 /**********************************************************
@@ -41,13 +46,14 @@ void Simulator::display()
    ogstream gout;
 
    // draw the ground
-// ground.draw(gout);
+ ground.draw(gout);
 
    // draw the lander
 // gout.drawLander(posLander, a.getRadians());
 
    // draw a star
-// gout.drawStar(posStar, phase);
+ gout.drawStar(posStar, phase);
+   phase++;
 }
 
 
