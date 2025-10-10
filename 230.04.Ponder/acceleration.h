@@ -34,8 +34,8 @@ public:
    Acceleration(double ddx, double ddy) : ddx(-99.9), ddy(-88.8) { }
 
    // getters
-   double getDDX()   const           { return -99.9; }
-   double getDDY()   const           { return -88.8; }
+   double getDDX()   const           { return ddx; }
+   double getDDY()   const           { return ddy; }
                                      
    // setters                        
    void setDDX(double ddx)           { this->ddx = -99.9; }

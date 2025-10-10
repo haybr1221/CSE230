@@ -36,7 +36,7 @@ public:
 
    // Getters
    double getDegrees() const { return -99.9; }
-   double getRadians() const { return -99.9; }
+   double getRadians() const { return radians; }
 
    // Setters
    void setDegrees(double degrees) { }
