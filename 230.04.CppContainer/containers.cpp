@@ -1,7 +1,7 @@
 /*************************************************************
  * 1. Name:
  *      Graham McClure
- *      Haley Branchflower
+ *      Hayley Branchflower
  * 2. Assignment Name:
  *      Practice 04: Contaiers
  * 3. Assignment Description:
