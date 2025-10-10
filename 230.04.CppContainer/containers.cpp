@@ -1,14 +1,15 @@
 /*************************************************************
  * 1. Name:
- *      -your name-
+ *      Graham McClure
+ *      Haley Branchflower
  * 2. Assignment Name:
  *      Practice 04: Contaiers
  * 3. Assignment Description:
  *      Work with a list and a vector
  * 4. What was the hardest part? Be as specific as possible.
- *      -a paragraph or two about how the assignment went for you-
+ *      We did not have much trouble other than remembering how to iterate through each container type. 
  * 5. How long did it take for you to complete the assignment?
- *      -total time in hours: reading the assignment, submitting, etc.
+ *      ~45 minutes
  **************************************************************/
 
 
@@ -71,10 +72,12 @@ vector<string> listToVectorBackwards(const list<string>& l)
  *****************************/
 bool findElementInVector(const vector<string> & v, const string& element)
 {
-    for (auto item : v) {
-        if (item == element) {
+    for (auto item : v)
+    {
+        if (item == element)
+        {
             return true; // returns true if element exists
-        };
+        }
     }
     return false; // no matching element
 }
