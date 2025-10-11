@@ -26,6 +26,7 @@ public:
    {
       posStar = Position(100.00, 300.00);
       phase = 0;
+      posLander = Position(200.00,200.00);
    }
        
    // display stuff on the screen
@@ -35,6 +36,7 @@ public:
    Angle a;
    Ground ground;
    Position posStar;
+   Position posLander;
 };
 
 /**********************************************************
@@ -46,14 +48,14 @@ void Simulator::display()
    ogstream gout;
 
    // draw the ground
- ground.draw(gout);
-
+    ground.draw(gout);
+    
    // draw the lander
-// gout.drawLander(posLander, a.getRadians());
+    gout.drawLander(posLander, a.getRadians());
 
    // draw a star
- gout.drawStar(posStar, phase);
-   phase++;
+    gout.drawStar(posStar, phase);
+    phase++;
 }
 
 
@@ -72,9 +74,9 @@ void callBack(const Interface* pUI, void* p)
 
    // handle input
    if (pUI->isRight())
-      ;   // rotate right here
+     pSimulator->a.add(-0.1);   // rotate right here
    if (pUI->isLeft())
-      ;   // rotate left here
+      pSimulator->a.add(0.1);   // rotate left here
 
 
 }
