@@ -10,7 +10,7 @@
 #include "position.h"
 #include "velocity.h"
 #include "acceleration.h"
-#include <iostream>
+
  /******************************************
   * POINT : CONSTRUCTOR WITH X,Y
   * Initialize the point to the passed position
