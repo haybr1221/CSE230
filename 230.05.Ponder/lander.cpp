@@ -9,6 +9,7 @@
 
 #include "lander.h"
 #include "acceleration.h"
+#include <cmath> // for cos()
 
  /***************************************************************
   * RESET
@@ -40,6 +41,10 @@ void Lander :: reset(const Position & posUpperRight)
  ***************************************************************/
 void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
+    // lander
+    gout.drawLander(getPosition(), angle.getRadians());
+    // thrust
+    gout.drawLanderFlames(getPosition(), angle.getRadians(), thrust.isMain(),thrust.isCounter(), thrust.isClock());
 }
 
 /***************************************************************
@@ -47,10 +52,52 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
  * Accept input from the Neil Armstrong
  ***************************************************************/
 Acceleration Lander :: input(const Thrust& thrust, double gravity)
-{
-   pos.setX(-99.9);
-   return Acceleration();
+{   
+    //// adjust the angle according to thrust
+    //double adjRad = thrust.rotation();
+    //angle.add(adjRad);
+
+    //// get acceleration from thrust, gravity, and angle
+    //thrust.mainEngineThrust(); // get thrust for directional acceleration
+    //// vertical component
+    //double yComp = thrust.mainEngineThrust() * std::cos(angle.getRadians());
+    //yComp += gravity;
+    //// horizontal component
+    //double xComp = thrust.mainEngineThrust() * std::sin(angle.getRadians());
+    
+    
+    // Adjust the angle according to the thrust
+    angle.add(thrust.rotation());
+    
+    double yComp = gravity;
+    double xComp = 0;
+
+    // fuel
+    if (thrust.isClock() || thrust.isCounter() || thrust.isMain())
+        if (fuel > 0.0) {
+            fuel -= 1; // adjust fuel since thrusters on.
+            if (thrust.isMain()) {
+                yComp += cos(angle.getRadians()) * thrust.mainEngineThrust();
+                xComp = (-1 * (std::sin(angle.getRadians())));
+                xComp *= thrust.mainEngineThrust();
+
+            }
+        }
+    
+    // thrust: - sin(angle.radians) * 2.9795404
+    return Acceleration(xComp, yComp);
 }
+
+
+double computeDistance(double velocity, double acceleration, double tTime)
+{
+    // distance equation
+    //pos.x + velocity.dx * time + 0.5 * angle.ddx * time*time
+    double addPosition = (velocity * tTime) + (1.0 / 2.0 * acceleration * pow(tTime, 2));
+    return addPosition;
+};
+
+\
 
 /******************************************************************
  * COAST
@@ -58,5 +105,10 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
  *******************************************************************/
 void Lander :: coast(Acceleration & acceleration, double time)
 {
-   pos.setX(-99.9);
+    // adjust position
+    pos.addX(computeDistance(velocity.getDX(), acceleration.getDDX(), time));
+    pos.addY(computeDistance(velocity.getDY(), acceleration.getDDY(), time));
+    // adjust velocity
+    velocity.addDX(acceleration.getDDX() * time);
+    velocity.addDY(acceleration.getDDY() * time);
 }

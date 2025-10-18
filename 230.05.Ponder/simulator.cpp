@@ -13,6 +13,8 @@
 #include "test.h"        // for the unit tests
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
+#define TIME_INTERVAL 0.1
+#define GRAVITY -1.625
 using namespace std;
 
 
@@ -27,19 +29,25 @@ public:
    {
       for (int i = 0; i < numStars; i++)
         stars[i].reset((int)posUpperRight.getX(), (int)posUpperRight.getY());
+      // initialize lander
+      lander = Lander(posUpperRight);
    }
    
    void draw(ogstream & gout)
    {
       for (int i = 0; i < numStars; i++)
          stars[i].draw(gout);
+      
    }
    
    Ground ground;
-   
+   Lander lander;
+   Thrust thrust;
 private:
    static const int numStars = 50;
    Star stars[numStars];
+   
+   
 };
 
 
@@ -55,12 +63,33 @@ void callBack(const Interface* pUI, void* p)
    Simulator * pSimulator = (Simulator *)p;
 
    ogstream gout;
-   
+
    // draw 50 stars
    pSimulator->draw(gout);
 
    // draw the ground
    pSimulator->ground.draw(gout);
+   
+   if (pSimulator->lander.isFlying()) {
+       //// Lander
+       pSimulator->thrust.set(pUI); // set the directions
+
+       // handle lander physics
+       Acceleration acc = pSimulator->lander.input(pSimulator->thrust, GRAVITY);
+       pSimulator->lander.coast(acc, TIME_INTERVAL);
+   };
+       // draw lander
+   pSimulator->lander.draw(pSimulator->thrust, gout);
+   
+   // if lander has landed
+   if (pSimulator->ground.onPlatform(pSimulator->lander.getPosition(), pSimulator->lander.getWidth())) {
+       pSimulator->lander.land();
+   };
+
+   // if lander has died
+   if (pSimulator->ground.hitGround(pSimulator->lander.getPosition(), pSimulator->lander.getWidth())) {
+       pSimulator->lander.crash();
+   };
 }
 
 /*********************************
