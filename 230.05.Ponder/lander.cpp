@@ -72,18 +72,19 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
     double yComp = gravity;
     double xComp = 0;
 
-    // fuel
-    if (thrust.isClock() || thrust.isCounter() || thrust.isMain())
-        if (fuel > 0.0) {
-            fuel -= 1; // adjust fuel since thrusters on.
-            if (thrust.isMain()) {
-                yComp += cos(angle.getRadians()) * thrust.mainEngineThrust();
-                xComp = (-1 * (std::sin(angle.getRadians())));
-                xComp *= thrust.mainEngineThrust();
-
-            }
+   
+     if (fuel > 0.0) {
+        // fuel
+        if (thrust.isClock() || thrust.isCounter())
+           fuel -= 1; // adjust fuel for thrusters
+        else if (thrust.isMain())
+        {
+           fuel -= 10; // adjust fuel for other
+           yComp += cos(angle.getRadians()) * thrust.mainEngineThrust();
+           xComp += -(std::sin(angle.getRadians())) * thrust.mainEngineThrust();
         }
-    
+     }
+ 
     // thrust: - sin(angle.radians) * 2.9795404
     return Acceleration(xComp, yComp);
 }
