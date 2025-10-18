@@ -23,8 +23,23 @@ using namespace std;
 class Simulator
 {
 public:
-   Simulator(const Position & posUpperRight) : ground(posUpperRight) {}
+   Simulator(const Position & posUpperRight) : ground(posUpperRight)
+   {
+      for (int i = 0; i < numStars; i++)
+        stars[i].reset((int)posUpperRight.getX(), (int)posUpperRight.getY());
+   }
+   
+   void draw(ogstream & gout)
+   {
+      for (int i = 0; i < numStars; i++)
+         stars[i].draw(gout);
+   }
+   
    Ground ground;
+   
+private:
+   static const int numStars = 50;
+   Star stars[numStars];
 };
 
 
@@ -40,6 +55,9 @@ void callBack(const Interface* pUI, void* p)
    Simulator * pSimulator = (Simulator *)p;
 
    ogstream gout;
+   
+   // draw 50 stars
+   pSimulator->draw(gout);
 
    // draw the ground
    pSimulator->ground.draw(gout);
