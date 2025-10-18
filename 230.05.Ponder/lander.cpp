@@ -43,8 +43,12 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
 {
     // lander
     gout.drawLander(getPosition(), angle.getRadians());
-    // thrust
-    gout.drawLanderFlames(getPosition(), angle.getRadians(), thrust.isMain(),thrust.isCounter(), thrust.isClock());
+    if (status == PLAYING)
+        // thrust
+        gout.drawLanderFlames(getPosition(), angle.getRadians(), thrust.isMain(),thrust.isCounter(), thrust.isClock());
+    else 
+        // thrust
+        gout.drawLanderFlames(getPosition(), angle.getRadians(), false, false, false);
 }
 
 /***************************************************************
@@ -98,7 +102,7 @@ double computeDistance(double velocity, double acceleration, double tTime)
     return addPosition;
 };
 
-\
+
 
 /******************************************************************
  * COAST

@@ -71,13 +71,14 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->ground.draw(gout);
    
    if (pSimulator->lander.isFlying()) {
-       //// Lander
-       pSimulator->thrust.set(pUI); // set the directions
 
        // handle lander physics
        Acceleration acc = pSimulator->lander.input(pSimulator->thrust, GRAVITY);
        pSimulator->lander.coast(acc, TIME_INTERVAL);
-   };
+       //pSimulator->
+   }
+   //// Lander
+   pSimulator->thrust.set(pUI); // set the directions
        // draw lander
    pSimulator->lander.draw(pSimulator->thrust, gout);
    
