@@ -40,10 +40,10 @@ void testRunner()
 #endif // _WIN32
 
    // Unit tests
-//   TestAngle().run();
-//   TestAcceleration().run();
-//   TestVelocity().run();
-//   TestPosition().run();
+   TestAngle().run();
+   TestAcceleration().run();
+   TestVelocity().run();
+   TestPosition().run();
    TestThrust().run();
-//   TestLander().run();
+   TestLander().run();
 }
