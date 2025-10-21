@@ -1,14 +1,14 @@
 /*************************************************************
  * 1. Name:
- *      -your name-
+ *      Hayley Branchflower & Graham McClure
  * 2. Assignment Name:
  *      Practice 06: Templates
  * 3. Assignment Description:
  *      Find the biggest element in an array, and a stack data structure.
  * 4. What was the hardest part? Be as specific as possible.
- *      -a paragraph or two about how the assignment went for you-
+ *      Remembering how to implement classes
  * 5. How long did it take for you to complete the assignment?
- *      -total time in hours: reading the assignment, submitting, etc.
+ *      10 minutes
  **************************************************************/
 
 #pragma once
@@ -18,9 +18,10 @@
  /***************************************
   * FIND BIGGEST
   **************************************/
-double findBiggest(double array[], int numElements)
+template <class T>
+T findBiggest(T array[], int numElements)
 {
-   double biggest = array[0];
+   T biggest = array[0];
    for (int i = 1; i < numElements; i++)
       if (array[i] > biggest)
          biggest = array[i];
@@ -33,6 +34,7 @@ class TestStack;
 /***************************************
  * STACK
  **************************************/
+template <class T>
 class Stack
 {
    friend TestStack;
@@ -40,7 +42,7 @@ public:
    Stack() : numElements(0) {}
 
    // Add an element to the stack
-   void push(const double & value)
+   void push(const T & value)
    {
       if (numElements < 10)
          data[numElements++] = value;
@@ -54,7 +56,7 @@ public:
    }
 
    // Retrieve the top-most element
-   double top()
+   T top()
    {
       if (numElements)
          return data[numElements - 1];
@@ -62,6 +64,6 @@ public:
    }
 
 private:
-   double data[10];
+   T data[10];
    int numElements;
 };
