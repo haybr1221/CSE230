@@ -57,18 +57,6 @@ void Lander :: draw(const Thrust & thrust, ogstream & gout) const
  ***************************************************************/
 Acceleration Lander :: input(const Thrust& thrust, double gravity)
 {   
-    //// adjust the angle according to thrust
-    //double adjRad = thrust.rotation();
-    //angle.add(adjRad);
-
-    //// get acceleration from thrust, gravity, and angle
-    //thrust.mainEngineThrust(); // get thrust for directional acceleration
-    //// vertical component
-    //double yComp = thrust.mainEngineThrust() * std::cos(angle.getRadians());
-    //yComp += gravity;
-    //// horizontal component
-    //double xComp = thrust.mainEngineThrust() * std::sin(angle.getRadians());
-    
     
     // Adjust the angle according to the thrust
     angle.add(thrust.rotation());

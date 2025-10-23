@@ -84,7 +84,13 @@ void callBack(const Interface* pUI, void* p)
    
    // if lander has landed
    if (pSimulator->ground.onPlatform(pSimulator->lander.getPosition(), pSimulator->lander.getWidth())) {
-       pSimulator->lander.land();
+       // if moving too fast, crash
+       if (pSimulator->lander.getSpeed() < pSimulator->lander.getMaxSpeed()) {
+           pSimulator->lander.land();
+       }
+       else {
+           pSimulator->lander.crash();
+       }
    };
 
    // if lander has died

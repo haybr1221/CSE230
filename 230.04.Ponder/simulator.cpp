@@ -78,7 +78,6 @@ void callBack(const Interface* pUI, void* p)
    if (pUI->isLeft())
       pSimulator->a.add(0.1);   // rotate left here
 
-
 }
 
 /*********************************
