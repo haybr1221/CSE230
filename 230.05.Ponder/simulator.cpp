@@ -16,6 +16,7 @@
 #include <format>        // for FORMAT
 #include <sstream>       // for combining vars and strings with precision
 #include <iomanip>       // for SETPRECISION
+#include <iostream>
 #define TIME_INTERVAL 0.1
 #define GRAVITY -1.625
 using namespace std;
@@ -66,7 +67,14 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulator * pSimulator = (Simulator *)p;
-
+   
+   // reset simulator if dead and space is pressed.
+   if (pUI->isSpace() && !pSimulator->lander.isFlying()) {
+       //  reset simulator
+       cout << "pressed space: Resetting\n";
+       pSimulator->ground.reset();
+       pSimulator->lander.reset(pSimulator->upperRight);
+   };
    ogstream gout;
 
    // draw 50 stars
@@ -76,9 +84,11 @@ void callBack(const Interface* pUI, void* p)
    pSimulator->ground.draw(gout);
    
    // draw the stats
+   //// labels
    gout.setPosition(Position(10,380));
    gout.str("Fuel: \nAltitude:\nSpeed:");
    gout.setPosition(Position(70, 380));
+   //// values
    stringstream statStream;
    statStream << pSimulator->lander.getFuel() << " lbs\n" << fixed << setprecision(0) << pSimulator->ground.getElevation(pSimulator->lander.getPosition()) << " meters\n" << setprecision(2) << pSimulator->lander.getSpeed() << " m/s";
    gout.str(statStream.str());
@@ -101,9 +111,6 @@ void callBack(const Interface* pUI, void* p)
        // if moving too fast, crash
        if (pSimulator->lander.getSpeed() < pSimulator->lander.getMaxSpeed()) {
            pSimulator->lander.land();
-           gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 3 * 2));
-           gout.str("Housten, we have a problem.");
-           gout.flush();
        }
        else {
            pSimulator->lander.crash();
@@ -114,20 +121,22 @@ void callBack(const Interface* pUI, void* p)
    if (pSimulator->ground.hitGround(pSimulator->lander.getPosition(), pSimulator->lander.getWidth())) {
        pSimulator->lander.crash();
 
-       
    };
+   // DEATH MESSAGE
    if (pSimulator->lander.isDead()) {
        // display crash text     
                             /// x = half the screen plus account for text width      ///  x = 5/6ths to the top
        gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 6 * 5));
-       gout.str("Housten, we have a problem!");
+       gout.str("Housten, we have a problem!\n\n(press SPACE to restart)");
        gout.flush();
    }
+   // SUCCESS MESSAGE
    else if (pSimulator->lander.isLanded()) {
        gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 6 * 5));
-       gout.str("The Eagle has landed!");
+       gout.str("The Eagle has landed!\n\n(press SPACE to restart)");
        gout.flush();
    };
+
 }
 
 /*********************************
@@ -148,7 +157,6 @@ int main(int argc, char** argv)
 {
    // Run the unit tests
    testRunner();
-
    
    // Initialize OpenGL
    Position posUpperRight(400, 400);
@@ -158,7 +166,7 @@ int main(int argc, char** argv)
    Simulator simulator(posUpperRight);
 
    // set everything into action
-   ui.run(callBack, (void *)&simulator);
+   ui.run(callBack, (void*)&simulator);
 
    return 0;
 }
