@@ -1,5 +1,6 @@
 /**********************************************************************
  * LAB 06
+ * Contributers: Graham McClure, Hayley Branchflower.
  * Lunar Lander simulation. This is the Game class and main()
  **********************************************************************/
 
@@ -16,7 +17,7 @@
 #include <format>        // for FORMAT
 #include <sstream>       // for combining vars and strings with precision
 #include <iomanip>       // for SETPRECISION
-#include <iostream>
+#include <iostream>      // for COUT
 #define TIME_INTERVAL 0.1
 #define GRAVITY -1.625
 using namespace std;
