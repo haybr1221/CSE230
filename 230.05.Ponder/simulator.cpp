@@ -34,7 +34,7 @@ public:
         stars[i].reset((int)posUpperRight.getX(), (int)posUpperRight.getY());
       // initialize lander
       lander = Lander(posUpperRight);
-      //upperRight = posUpperRight;
+      upperRight = Position(posUpperRight);
    }
    
    void draw(ogstream & gout)
@@ -47,7 +47,7 @@ public:
    Ground ground;
    Lander lander;
    Thrust thrust;
-   //Position upperRight;
+   Position upperRight;
 private:
    static const int numStars = 50;
    Star stars[numStars];
@@ -101,6 +101,9 @@ void callBack(const Interface* pUI, void* p)
        // if moving too fast, crash
        if (pSimulator->lander.getSpeed() < pSimulator->lander.getMaxSpeed()) {
            pSimulator->lander.land();
+           gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 3 * 2));
+           gout.str("Housten, we have a problem.");
+           gout.flush();
        }
        else {
            pSimulator->lander.crash();
@@ -110,6 +113,20 @@ void callBack(const Interface* pUI, void* p)
    // if lander has died
    if (pSimulator->ground.hitGround(pSimulator->lander.getPosition(), pSimulator->lander.getWidth())) {
        pSimulator->lander.crash();
+
+       
+   };
+   if (pSimulator->lander.isDead()) {
+       // display crash text     
+                            /// x = half the screen plus account for text width      ///  x = 5/6ths to the top
+       gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 6 * 5));
+       gout.str("Housten, we have a problem!");
+       gout.flush();
+   }
+   else if (pSimulator->lander.isLanded()) {
+       gout.setPosition(Position(pSimulator->upperRight.getX() / 2 - 50, pSimulator->upperRight.getY() / 6 * 5));
+       gout.str("The Eagle has landed!");
+       gout.flush();
    };
 }
 
