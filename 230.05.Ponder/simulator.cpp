@@ -13,6 +13,9 @@
 #include "test.h"        // for the unit tests
 #include <cmath>         // for SQRT
 #include <cassert>       // for ASSERT
+#include <format>        // for FORMAT
+#include <sstream>       // for combining vars and strings with precision
+#include <iomanip>       // for SETPRECISION
 #define TIME_INTERVAL 0.1
 #define GRAVITY -1.625
 using namespace std;
@@ -31,6 +34,7 @@ public:
         stars[i].reset((int)posUpperRight.getX(), (int)posUpperRight.getY());
       // initialize lander
       lander = Lander(posUpperRight);
+      //upperRight = posUpperRight;
    }
    
    void draw(ogstream & gout)
@@ -43,6 +47,7 @@ public:
    Ground ground;
    Lander lander;
    Thrust thrust;
+   //Position upperRight;
 private:
    static const int numStars = 50;
    Star stars[numStars];
@@ -69,6 +74,15 @@ void callBack(const Interface* pUI, void* p)
 
    // draw the ground
    pSimulator->ground.draw(gout);
+   
+   // draw the stats
+   gout.setPosition(Position(10,380));
+   gout.str("Fuel: \nAltitude:\nSpeed:");
+   gout.setPosition(Position(70, 380));
+   stringstream statStream;
+   statStream << pSimulator->lander.getFuel() << " lbs\n" << fixed << setprecision(0) << pSimulator->ground.getElevation(pSimulator->lander.getPosition()) << " meters\n" << setprecision(2) << pSimulator->lander.getSpeed() << " m/s";
+   gout.str(statStream.str());
+   gout.flush();
    
    if (pSimulator->lander.isFlying()) {
 
