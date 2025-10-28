@@ -1,6 +1,6 @@
 /*************************************************************
  * 1. Name:
- *      -your name-
+ *      Hayley Branchflower  & Graham McClure
  * 2. Module
  *      WALLET
  * 3. Assignment Description:
