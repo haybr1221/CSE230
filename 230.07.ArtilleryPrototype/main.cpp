@@ -14,7 +14,7 @@
 
 #include <cmath>
 
-double drag(double v, double dx, double dy)
+void drag(double v, double dx, double dy)
 {
    // Define constants
    double dragCoefficient = 0.3;
@@ -40,7 +40,7 @@ double drag(double v, double dx, double dy)
    double ddx = -drag * sin(angle);
    double ddy = -drag * cos(angle);
    
-   return {ddx, ddy};
+//   return {ddx, ddy};
 
 }
 
@@ -95,11 +95,17 @@ double hitGround(double y_curr, double y_prev, double x_prev, double x_curr, dou
       // Solve for t when y = 0
       double t_hit = t_prev + (0 - y_prev) * (t_curr - t_prev) / (y_curr - y_prev);
       
-      // Step 3: use that t_hit to find x_hit (the position at ground contact)
       double x_hit = x_prev + (x_curr - x_prev) * ((t_hit - t_prev) / (t_curr - t_prev));
       
-      return x_hit, t_hit;
+      return x_hit;
    }
    
    return -1;
+}
+
+int main()
+{
+   
+   
+   return EXIT_SUCCESS;
 }
