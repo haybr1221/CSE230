@@ -16,11 +16,11 @@
  * ACCELERATION : ADD
  *  a += a
  *********************************************/
-//void Acceleration::add(const Acceleration& acceleration)
-//{
-//  ddx += acceleration.getDDX();
-//  ddy += acceleration.getDDY();
-//}
+void Acceleration::add(const Acceleration& acceleration)
+{
+  ddx += acceleration.getDDX();
+  ddy += acceleration.getDDY();
+}
 
 
 /*********************************************

@@ -62,9 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				C1A1B9B72B21093A00E5DEAA /* acceleration.cpp */,
-				C1A1B9B82B21093A00E5DEAA /* acceleration.h */,
 				C1A1B9BC2B21093A00E5DEAA /* angle.cpp */,
 				C1A1B9B52B21093A00E5DEAA /* angle.h */,
+				C1A1B9B82B21093A00E5DEAA /* acceleration.h */,
 				C1A1B9BF2B21093A00E5DEAA /* main.cpp */,
 				C1A1B9B92B21093A00E5DEAA /* position.cpp */,
 				C1A1B9B32B21093A00E5DEAA /* position.h */,

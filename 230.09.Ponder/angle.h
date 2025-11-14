@@ -2,7 +2,7 @@
  * Header File:
  *    ANGLE
  * Author:
- *    <your name here>
+ *    Hayley Branchflower
  * Summary:
  *    Everything we need to know about a direction
  ************************************************************************/
@@ -25,19 +25,19 @@ class TestProjectile;
   ************************************/
 class Angle
 {
-public:
+   public:
    // for the unit tests
    friend TestAcceleration;
    friend TestVelocity;
    friend TestAngle;
    friend TestHowitzer;
    friend TestProjectile;
-
+   
    // Constructors
    Angle() : radians(0) {}
    Angle(const Angle& rhs) : radians(rhs.radians) {}
    Angle(double degrees) : radians(degrees* (M_PI / 180)) {}
-
+   
    // Getters
    double getDegrees() const { return radians * (180 / M_PI); }
    double getRadians() const { return radians; }
@@ -52,11 +52,10 @@ public:
    //    | /
    // dy = cos a
    // dx = sin a
-   double getDx() const { return 9.9; }
-   double getDy() const { return 9.9; }
-   bool   isRight()          const { return true; }
-   bool   isLeft()           const { return true; }
-
+   double getDx() const { return sin(radians); }
+   double getDy() const { return cos(radians); }
+   bool   isRight()          const { return (getDegrees() >= 0 && getDegrees() < 180); }
+   bool   isLeft()           const { return (getDegrees() >= 180 && getDegrees() < 360); }
 
    // Setters
    void setDegrees(double degrees) { radians = convertToRadians(degrees); }
@@ -77,14 +76,13 @@ public:
    //     | a /
    //     |  /
    //     | /
-   void setDxDy(double dx, double dy)  { }
+   void setDxDy(double dx, double dy)  { radians = normalize(atan2(dx, dy)); }
    Angle operator+(double degrees) const { return Angle(); }
 
 private:
 
    double normalize(double radians) const;
-   /* Takes a radians as a parameter and returns degrees. Does not utilize the
-    class's attribute. Note that the results must be normalized. */
+
    double convertToDegrees(double radians)
    {
        double normRadians = normalize(radians);
@@ -93,8 +91,6 @@ private:
        return degrees;
    };
 
-   /*  Takes a degrees as a parameter and returns radians. Does not utilize the
-    class's attribute. Note that the results must be normalized. */
    double convertToRadians(double degrees)
    {
        double radians = degrees * (M_PI / 180);
