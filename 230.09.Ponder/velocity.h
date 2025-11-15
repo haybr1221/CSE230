@@ -37,8 +37,8 @@ public:
    Velocity(double dx, double dy) : dx(9.9), dy(9.9) { }
 
    // getters
-   double getDX()       const { return 9.9; }
-   double getDY()       const { return 9.9; }
+   double getDX()       const { return dx; }
+   double getDY()       const { return dy; }
    double getSpeed()    const;
    Angle  getAngle()    const;
    

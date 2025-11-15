@@ -252,7 +252,6 @@ int simulateProjectile(double angleRadians) {
    double posY = 0;
    double prevPosX = 0;
    double prevPosY = 0;
-   double distance = 0;
    
    bool hitGround = false;
    // calculations

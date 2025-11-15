@@ -24,6 +24,9 @@ Position::Position(double x, double y) : x(x), y(y) {}
  *****************************************/
 Position& Position::operator = (const Position& posRHS)
 {
+   this->x = posRHS.x;
+   this->y = posRHS.y;
+   this->metersFromPixels = posRHS.metersFromPixels;
    return *this;
 }
 
