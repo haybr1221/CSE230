@@ -20,7 +20,7 @@
   ********************************************************/
 inline double areaFromRadius(double radius)
 {
-   return -99.9;
+   return M_PI * (radius * radius);
 }
 
 /**********************************************************
@@ -36,7 +36,7 @@ inline double areaFromRadius(double radius)
 inline double forceFromDrag(double density, double drag, 
                             double radius, double velocity)
 {
-   return -99.9;
+   return 0.5 * density * drag * (areaFromRadius(radius)) * (velocity * velocity);
 }
 
 /**********************************************************
@@ -50,7 +50,7 @@ inline double forceFromDrag(double density, double drag,
  ************************************************************/
 inline double accelerationFromForce(double force, double mass)
 {
-   return -99.9;
+   return force / mass;
 }
 
 /***********************************************************
@@ -64,7 +64,7 @@ inline double accelerationFromForce(double force, double mass)
  ************************************************************/
 inline double velocityFromAcceleration(double acceleration, double time)
 {
-   return -99.9;
+   return acceleration * time;
 }
 
 /*********************************************************
@@ -88,7 +88,7 @@ inline double linearInterpolation(double d0, double r0,
                                   double d1, double r1,
                                   double d)
 {
-   return -99.9;
+   return r0 + (r1 - r0) * (d - d0) / (d1 - d0);
 }
 
 /*********************************************************
