@@ -79,66 +79,91 @@ class Angle
        {
            out.precision(1);
            out.setf(ios::fixed);
-           out << convertToDegrees(radians) << "degrees";
+           out << convertToDegrees(radians);
        };
    
+      // Assignment
       inline Angle & operator=(const Angle & rhs)
       {
          radians = rhs.radians;
          return *this;
       }
    
+      // Negative
       inline Angle operator-() const
       {
          double newAngle = convertToDegrees(radians) - 180;
          return Angle(newAngle);
       }
    
+      // Equals
       inline bool operator==(const Angle & rhs)
       {
          return radians == rhs.radians;
       }
    
+      // Not equals
       inline bool operator!=(const Angle & rhs)
       {
          return radians != rhs.radians;
       }
    
+      // Insertion
       friend ostream & operator<<(ostream & out, const Angle & rhs)
       {
-         out << rhs.radians;
+         out.precision(1);
+         out.setf(ios::fixed);
+         double deg = rhs.convertToDegrees(rhs.radians);
+         out << deg;
          return out;
       }
 
+      // Extraction
       friend istream & operator>>(istream & in, Angle & rhs)
       {
-         in >> rhs.radians;
+         double deg = rhs.convertToDegrees(rhs.radians);
+         in >> deg;
+         if (!in.fail()) {
+             rhs.radians = rhs.convertToRadians(deg);
+         }
          return in;
       }
    
+      // Increment prefix (++x)
       inline Angle & operator++()
       {
-         radians++;
-         return *this;
-      }
-   
-      inline Angle operator++(int postfix)
-      {
-         Angle returnAngle(*this);
-         radians++;
-         return returnAngle;
-      }
-   
-      inline Angle & operator--()
-      {
-         radians--;
+         double deg = convertToDegrees(radians);
+         deg += 1.0;
+         radians = convertToRadians(deg);
          return *this;
       }
       
+      // Increment postfix (x++)
+      inline Angle operator++(int postfix)
+      {
+         Angle returnAngle(*this);
+         double deg = convertToDegrees(radians);
+         deg += 1.0;
+         radians = convertToRadians(deg);
+         return returnAngle;
+      }
+   
+      // Decrement prefix (--x)
+      inline Angle & operator--()
+      {
+         double deg = convertToDegrees(radians);
+         deg -= 1.0;
+         radians = convertToRadians(deg);
+         return *this;
+      }
+      
+      // Decrement postfix (x--)
       inline Angle operator--(int postfix)
       {
          Angle returnAngle(*this);
-         radians--;
+         double deg = convertToDegrees(radians);
+         deg -= 1.0;
+         radians = convertToRadians(deg);
          return returnAngle;
       }
 
