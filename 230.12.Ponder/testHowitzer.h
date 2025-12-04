@@ -65,8 +65,18 @@ private:
    void defaultConstructor()
    {
       // setup
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      Howitzer h;
+      Position p;
+      Velocity v;
+      
+      // exercise
+      
+      // verify
+      assertEquals(h.position.getMetersX(), 0.0);
+      assertEquals(h.position.getMetersY(), 0.0);
+      assertEquals(h.muzzleVelocity, 827.0);
+      assertEquals(h.elevation.getDegrees(), 45.0);
+   } // teardown
 
    /*****************************************************************
     *****************************************************************
@@ -82,9 +92,14 @@ private:
    void getPosition_zero()
    {
       // setup
+      Howitzer h;
+      
       // exercise
+      h.position.setMeters(0.0, 0.0);
+      
       // verify
-      assertUnit(NOT_YET_IMPLEMENTED);
+      assertEquals(h.getPosition().getMetersX(), 0.0);
+      assertEquals(h.getPosition().getMetersY(), 0.0);
    } // teardown
 
    /*********************************************
@@ -94,8 +109,16 @@ private:
     *********************************************/
    void getPosition_middle()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.position.setMeters(123.4, 567.8);
+      
+      // verify
+      assertEquals(h.getPosition().getMetersX(), 123.4);
+      assertEquals(h.getPosition().getMetersY(), 567.8);
+   } // teardown
 
    /*********************************************
     * name:    GET MUZZLE VELOCITY - SLOW SPEED
@@ -104,8 +127,15 @@ private:
     *********************************************/
    void getMuzzleVelocity_slow()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.muzzleVelocity = 24.68;
+      
+      // verify
+      assertEquals(h.getMuzzleVelocity(), 24.68);
+   } // teardown
 
    /*********************************************
     * name:    GET MUZZLE VELOCITY - STANDARD SPEED
@@ -114,9 +144,16 @@ private:
     *********************************************/
    void getMuzzleVelocity_standard()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
-
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.muzzleVelocity = 827.00;
+      
+      // verify
+      assertEquals(h.getMuzzleVelocity(), 827.00);
+   } // teardown
+   
    /*********************************************
     * name:    GET ELEVATION - up
      * input:   h.elevation=0
@@ -124,8 +161,15 @@ private:
     *********************************************/
    void getElevation_up()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.elevation.setDegrees(0);
+      
+      // verify
+      assertEquals(h.getElevation().getDegrees(), 0.0);
+   } // teardown
 
    /*********************************************
     * name:    GET ELEVATION - right
@@ -134,8 +178,15 @@ private:
     *********************************************/
    void getElevation_right()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.elevation.setDegrees(0.4);
+      
+      // verify
+      assertEquals(h.getElevation().getDegrees(), 0.4);
+   } // teardown
 
    /*********************************************
     * name:    GET ELEVATION - left
@@ -144,8 +195,15 @@ private:
     *********************************************/
    void getElevation_left()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      
+      // exercise
+      h.elevation.setDegrees(5.8);
+      
+      // verify
+      assertEquals(h.getElevation().getDegrees(), 5.8);
+   } // teardown
 
    /*****************************************************************
     *****************************************************************
@@ -160,8 +218,21 @@ private:
      *********************************************/
    void generatePosition_small()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      Position posUpperRight;
+      posUpperRight.setPixelsX(10.0);
+      posUpperRight.setPixelsY(10.0);
+      
+      // exercise
+      h.generatePosition(posUpperRight);
+      double x = h.position.getPixelsX();
+      double y = h.position.getPixelsY();
+      
+      // verify
+      assert(x >= 1 && x <= 9);
+      assertEquals(y, 0);
+   } // teardown
 
     /*********************************************
     * name:    GENERATE POSITION large board
@@ -170,8 +241,21 @@ private:
     *********************************************/
    void generatePosition_large()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      Position posUpperRight;
+      posUpperRight.setPixelsX(1000.0);
+      posUpperRight.setPixelsY(1000.0);
+      
+      // exercise
+      h.generatePosition(posUpperRight);
+      double x = h.position.getPixelsX();
+      double y = h.position.getPixelsY();
+      
+      // verify
+      assert(x >= 100 && x <= 900);
+      assertEquals(y, 0);
+   } // teardown
 
    /*********************************************
     * name:    RAISE to the right/down
@@ -180,8 +264,16 @@ private:
     *********************************************/
    void raise_rightDown()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(0.5);
+      
+      // exercise
+      h.raise(-0.1);
+      
+      // verify
+      assertEquals(h.elevation.getRadians(), 0.6);
+   } // teardown
 
    /*********************************************
     * name:    RAISE to the right/up
@@ -190,8 +282,17 @@ private:
     *********************************************/
    void raise_rightUp()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(0.5);
+      
+      // exercise
+      h.raise(0.1);
+      
+      // verify
+      assertEquals(h.elevation.getRadians(), 0.4);
+   } // teardown
+
 
    /*********************************************
     * name:    RAISE to the left down
@@ -200,8 +301,17 @@ private:
     *********************************************/
    void raise_leftDown()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(2 * M_PI - 0.5);
+      
+      // exercise
+      h.raise(-0.1);
+
+      // verify
+      assertEquals(h.elevation.getRadians(), 2 * M_PI - 0.6);
+   } // teardown
+
 
    /*********************************************
     * name:    RAISE to the left up
@@ -210,8 +320,17 @@ private:
     *********************************************/
    void raise_leftUp()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(2 * M_PI - 0.5);
+      
+      // exercise
+      h.raise(0.1);
+
+      // verify
+      assertEquals(h.elevation.getRadians(), 2 * M_PI - 0.4);
+   } // teardown
+
 
    /*********************************************
     * name:    ROTATE CLOCKWISE no wrapping
@@ -220,8 +339,16 @@ private:
     *********************************************/
    void rotate_clock()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(1.23);
+      
+      // exercise
+      h.rotate(0.3);
+
+      // verify
+      assertEquals(h.elevation.getRadians(), 1.53);
+   } // teardown
 
    /*********************************************
     * name:    ROTATE COUNTER CLOCKWISE no wrapping
@@ -230,8 +357,16 @@ private:
     *********************************************/
    void rotate_counterClock()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(1.23);
+      
+      // exercise
+      h.rotate(-0.3);
+
+      // verify
+      assertEquals(h.elevation.getRadians(), 0.93);
+   } // teardown
 
    /*********************************************
     * name:    ROTATE CLOCKWISE CLOCKWISE WRAP BY 2PI
@@ -240,8 +375,16 @@ private:
     *********************************************/
    void rotate_wrapClock()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(2 * M_PI + -0.1);
+      
+      // exercise
+      h.rotate(0.2);
+
+      // verify
+      assertEquals(h.elevation.getRadians(), 0.1);
+   } // teardown
 
    /*********************************************
     * name:    ROTATE COUNTER CLOCKWISE WRAP BY 4PI
@@ -250,8 +393,16 @@ private:
     *********************************************/
    void rotate_wrapCounterClock()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Howitzer h;
+      h.elevation.setRadians(0.1);
+      
+      // exercise
+      h.rotate(-0.2 - 4 * M_PI);
+
+      // verify
+      assertEquals(h.elevation.getRadians(),(2 * M_PI + -0.1));
+   } // teardown
 
    /*****************************************************************
     *****************************************************************
