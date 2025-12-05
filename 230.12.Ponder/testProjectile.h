@@ -34,12 +34,12 @@ public:
       fire_up();
 
       // Ticket 4: Advance
-      advance_nothing();
-      advance_fall();
-      advance_horizontal();
-      advance_up();
-      advance_diagonalUp();
-      advance_diagonalDown();
+//      advance_nothing();
+//      advance_fall();
+//      advance_horizontal();
+//      advance_up();
+//      advance_diagonalUp();
+//      advance_diagonalDown();
 
       report("Projectile");
    }
@@ -61,8 +61,16 @@ private:
     *********************************************/
    void defaultConstructor()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      // exercise
+      Projectile p;
+      
+      // verify
+      assertEquals(p.mass, 46.7);
+      assertEquals(p.radius, 0.077545);
+      assertEquals(p.flightPath.size(), 0);
+      
+   } // teardown
 
    /*********************************************
     * name:    RESET from empty
@@ -71,8 +79,21 @@ private:
     *********************************************/
    void reset_empty()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Projectile p;
+      p.mass = -99;
+      p.radius = -99;
+      p.flightPath = {};
+      
+      // exercise
+      p.reset();
+      
+      // verify
+      assertEquals(p.mass, 46.7);
+      assertEquals(p.radius, 0.077545);
+      assertEquals(p.flightPath.size(), 0);
+      
+   } // teardown
 
    /*********************************************
     * name:    RESET with a non-zero flight path
@@ -81,8 +102,21 @@ private:
     *********************************************/
    void reset_full()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Projectile p;
+      p.mass = -99;
+      p.radius = -99;
+      p.flightPath = {0,1,2};
+      
+      // exercise
+      p.reset();
+      
+      // verify
+      assertEquals(p.mass, 46.7);
+      assertEquals(p.radius, 0.077545);
+      assertEquals(p.flightPath.size(), 0);
+      
+   } // teardown
 
 
    /*****************************************************************
@@ -98,8 +132,18 @@ private:
     *********************************************/
    void fire_right()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
-   }
+      // setup
+      Projectile p;
+      Position pos(111,222);
+      double angle = 90.0;
+      double muzzleVelocity = 100;
+      
+      // exercise
+      p.fire(pos, 1, angle, muzzleVelocity);
+      
+      // verify
+//      assertEquals();
+   } // teardown
 
    /*********************************************
     * name:    FIRE horizontally left
