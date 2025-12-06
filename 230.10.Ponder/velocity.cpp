@@ -83,6 +83,6 @@ void Velocity::set(const Angle& angle, double magnitude)
  ************************************************/
 Angle Velocity::getAngle() const
 {
-   return Angle();
+   return Angle(atan2(dx,dy));
 }
 

@@ -13,6 +13,7 @@
 #include "simulation.h" // for SIMULATION
 #include "position.h"   // for POSITION
 #include "test.h"       // for the unit tests
+#include "ground.h"
 using namespace std;
 
 
@@ -31,8 +32,12 @@ void callBack(const Interface* pUI, void* p)
 
    ogstream gout;
    Position pos(10,10);
+   
    gout = pos;
    gout << "Hello world";
+   // draw ground
+   pSim->ground.draw(gout);
+   pSim->howitzer.draw(gout,100); // temp 100 for testing
 }
 
 double Position::metersFromPixels = 40.0;
