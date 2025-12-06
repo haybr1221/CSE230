@@ -34,12 +34,12 @@ public:
       fire_up();
 
       // Ticket 4: Advance
-//      advance_nothing();
-//      advance_fall();
-//      advance_horizontal();
-//      advance_up();
-//      advance_diagonalUp();
-//      advance_diagonalDown();
+      advance_nothing();
+      advance_fall();
+      advance_horizontal();
+      advance_up();
+      advance_diagonalUp();
+      advance_diagonalDown();
 
       report("Projectile");
    }
@@ -178,7 +178,16 @@ private:
     *********************************************/
    void advance_nothing()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
+      // setup
+      Projectile p; 
+      p.mass = 46.7;
+      p.radius = 0.077545;
+      // exercise
+      p.advance(0.01);
+      // verify
+      assertEquals(p.mass, 46.7);
+      assertEquals(p.radius, 0.077545);
+      // teardown
    }
 
    /*********************************************
@@ -192,6 +201,11 @@ private:
     *********************************************/
    void advance_fall()
    {
+      // setup
+      Projectile p;
+      // exercise
+      // verify
+      // teardown
       assertUnit(NOT_YET_IMPLEMENTED);
    }
 

@@ -70,7 +70,9 @@ void Velocity::set(const Angle& angle, double magnitude)
  ************************************************/
 Angle Velocity::getAngle() const
 {
-   return Angle();
+   Angle angle;
+   angle.setRadians(atan2(dx, dy));
+   return angle;
 }
 Angle VelocityDummy::getAngle() const
 {

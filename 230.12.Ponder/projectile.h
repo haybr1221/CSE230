@@ -38,7 +38,7 @@ public:
    void fire(const Position& pos, double simulationTime, double angle, double muzzleVelocity);
 
    // advance the round forward until the next unit of time
-   void advance(double simulationTime) {}
+   void advance(double simulationTime);
 
 
 

@@ -66,6 +66,21 @@ inline double velocityFromAcceleration(double acceleration, double time)
 {
    return acceleration * time;
 }
+/******************************
+* POSITION FROM ACCELERATION
+* Find the new position component from acceleration
+* Distance formula:
+*  s = s0 + v t + ½ a t2
+*
+*  s = distance in meters (m)
+*  s0 = initial distance (m)
+*  v = velocity (m/s)
+*  t = time (s)
+*  a = acceleration (m/s2)
+*******************************/
+inline double positionFromAcceleration(double pos, double vel, double timeStep, double acc) {
+   return pos + (vel * timeStep) + (0.5 * acc * (timeStep * timeStep));
+}
 
 /*********************************************************
  * LINEAR INTERPOLATION
