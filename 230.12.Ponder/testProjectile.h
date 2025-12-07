@@ -133,6 +133,7 @@ private:
    void fire_right()
    {
       // setup
+      setupStandardFixture();
       Projectile p;
       Position pos(111,222);
       double angle = 90.0;
@@ -142,8 +143,17 @@ private:
       p.fire(pos, 1, angle, muzzleVelocity);
       
       // verify
-//      assertEquals();
-   } // teardown
+      assertUnit(p.flightPath.size() == 1);
+      if (!p.flightPath.empty()) {
+         assertEquals(p.flightPath.back().pos.x, 111);
+         assertEquals(p.flightPath.back().pos.y, 222);
+         assertEquals(p.flightPath.back().v.dx, 100);
+         assertEquals(p.flightPath.back().v.dy, 0);
+         assertEquals(p.flightPath.back().t, 1);
+      }
+      // teardown
+      teardownStandardFixture();
+   } 
 
    /*********************************************
     * name:    FIRE horizontally left
@@ -152,7 +162,27 @@ private:
     *********************************************/
    void fire_left()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
+      // setup
+      setupStandardFixture();
+      Projectile p;
+      Position pos(111, 222);
+      double angle = -90.0;
+      double muzzleVelocity = 100;
+
+      // exercise
+      p.fire(pos, 1, angle, muzzleVelocity);
+
+      // verify
+      assertUnit(p.flightPath.size() == 1);
+      if (!p.flightPath.empty()) {
+         assertEquals(p.flightPath.back().pos.x, 111);
+         assertEquals(p.flightPath.back().pos.y, 222);
+         assertEquals(p.flightPath.back().v.dx, -100);
+         assertEquals(p.flightPath.back().v.dy, 0);
+         assertEquals(p.flightPath.back().t, 1);
+      }
+      // teardown
+      teardownStandardFixture();
    }
 
    /*********************************************
@@ -162,7 +192,27 @@ private:
     *********************************************/
    void fire_up()
    {
-      assertUnit(NOT_YET_IMPLEMENTED);
+      // setup
+      setupStandardFixture();
+      Projectile p;
+      Position pos(111, 222);
+      double angle = 0;
+      double muzzleVelocity = 100;
+
+      // exercise
+      p.fire(pos, 1, angle, muzzleVelocity);
+
+      // verify
+      assertUnit(p.flightPath.size() == 1);
+      if (!p.flightPath.empty()) {
+         assertEquals(p.flightPath.back().pos.x, 111);
+         assertEquals(p.flightPath.back().pos.y, 222);
+         assertEquals(p.flightPath.back().v.dx, 0);
+         assertEquals(p.flightPath.back().v.dy, 100);
+         assertEquals(p.flightPath.back().t, 1);
+      }
+      // teardown
+      teardownStandardFixture();
    }
 
    /*****************************************************************

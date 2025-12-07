@@ -24,12 +24,16 @@ void Projectile::reset()
 
 void Projectile::fire(const Position& pos, double simulationTime, double angle, double muzzleVelocity)
 {
-   double vx = muzzleVelocity * sin(angle);
-   double vy = muzzleVelocity * cos(angle);
+   Angle a_angle(angle);
+   Velocity vel;
+   vel.set(a_angle, muzzleVelocity);
+   //double vx = muzzleVelocity * sin(rads);
+   //double vy = muzzleVelocity * cos(rads);
    
    PositionVelocityTime pvt(simulationTime);
    pvt.pos = pos;
-   pvt.v = Velocity(vx, vy);
+   //pvt.v = Velocity(vx, vy);
+   pvt.v = vel;
    pvt.t = simulationTime;
    
    flightPath.push_back(pvt);
