@@ -20,6 +20,8 @@
 #include <iomanip>       // for SETPRECISION
 using namespace std;
 
+const double LEFTRIGHT_RADS = 0.05;
+const double UPDOWN_RADS = 0.003;
 
 /*************************************
  * All the interesting work happens here, when
@@ -50,11 +52,44 @@ void callBack(const Interface* pUI, void* p)
            << "Hang time:   " << 0.0 << "s"   << setprecision(1);                                   // timer starting when fired
    }
    
+    //// INPUTS TO ADJUST ANGLE
+   // space
    if (pUI->isSpace())
    {
+      // fire bullet?
+      cout << "Pressed Space. Fire" << endl;
       // Reset
-//      pSim->ground.reset();
+      //pSim->ground.reset();
    }
+   // right
+   if (pUI->isRight()) 
+   {
+      cout << "Pressed Right." << endl;
+      pSim->howitzer.rotate(LEFTRIGHT_RADS); // radians for left/right
+   }
+   // left
+   if (pUI->isLeft()) 
+   {
+      cout << "Pressed Left." << endl;
+      pSim->howitzer.rotate(-LEFTRIGHT_RADS); // radians for left/right
+   }
+   // up
+   if (pUI->isUp())
+   {
+      cout << "Pressed Up." << endl;
+      // negative UPDOWN_RADS (counterclockwise) if on the right side, else negative (clockwise on left)
+      double dirRads = pSim->howitzer.getElevation().getRadians() < M_PI ? -UPDOWN_RADS : UPDOWN_RADS;
+      pSim->howitzer.rotate(dirRads); // radians for left/right
+   }
+   // down
+   if (pUI->isDown())
+   {
+      cout << "Pressed Down." << endl;
+      // positive UPDOWN_RADS if on the right side, else negative
+      double dirRads = pSim->howitzer.getElevation().getRadians() < M_PI ? UPDOWN_RADS : -UPDOWN_RADS;
+      pSim->howitzer.rotate( dirRads ); // radians for left/right
+   }
+
    
    // draw ground
    pSim->ground.draw(gout);
