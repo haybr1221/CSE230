@@ -7,13 +7,17 @@
  *    Simulate firing the M777 howitzer 15mm artillery piece
  ************************************************************************/
 
-#include <cassert>      // for ASSERT
-#include "uiInteract.h" // for INTERFACE
-#include "uiDraw.h"     // for RANDOM and DRAW*
-#include "simulation.h" // for SIMULATION
-#include "position.h"   // for POSITION
-#include "test.h"       // for the unit tests
+#include <cassert>       // for ASSERT
+#include "uiInteract.h"  // for INTERFACE
+#include "uiDraw.h"      // for RANDOM and DRAW*
+#include "uiInteract.h"  // for INTERFACE
+#include "simulation.h"  // for SIMULATION
+#include "position.h"    // for POSITION
+#include "projectile.h"  // for PROJECTILE
+#include "test.h"        // for the unit tests
 #include "ground.h"
+#include "howitzer.h"    // for HOWITZER
+#include <iomanip>       // for SETPRECISION
 using namespace std;
 
 
@@ -31,10 +35,27 @@ void callBack(const Interface* pUI, void* p)
    Simulator* pSim = (Simulator*)p;
 
    ogstream gout;
-   Position pos(10,10);
+   Position pos(23000, 19000);
    
+   // set stats
    gout = pos;
-   gout << "Hello world";
+   gout << "Angle: " << 0.0 << "degrees" << setprecision(1) << endl;     // angle the Howitzer is pointing
+   
+//   if (pUI->)
+   {
+      // fired, set new stats
+      gout << "Altitude:    " << pSim->howitzer.getPosition().getPixelsY() << "m\n" << setprecision(1) << endl   // position y
+           << "Speed:       " << pSim->howitzer.getMuzzleVelocity() << "m/s" << setprecision(1) << endl          // muzzle velocity
+           << "Distance:    " << pSim->howitzer.getPosition().getPixelsX() << "m"   << setprecision(1) << endl   // position x
+           << "Hang time:   " << 0.0 << "s"   << setprecision(1);                                   // timer starting when fired
+   }
+   
+   if (pUI->isSpace())
+   {
+      // Reset
+//      pSim->ground.reset();
+   }
+   
    // draw ground
    pSim->ground.draw(gout);
    pSim->howitzer.draw(gout,100); // temp 100 for testing
