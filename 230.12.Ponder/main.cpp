@@ -41,7 +41,12 @@ void callBack(const Interface* pUI, void* p)
    
    // set stats
    gout = pos;
-   gout << "Angle: " << pSim->howitzer.getElevation() << setprecision(1) << endl;     // angle the Howitzer is pointing
+   gout << std::fixed << std::setprecision(1);
+   
+   if (!pSim->projectile.isProjectileActive())
+   {
+      gout << "Angle: " << pSim->howitzer.getElevation() << setprecision(1) << endl;     // angle the Howitzer is pointing
+   }
    
    // howitzer angle in degrees
    double degrees = pSim->howitzer.getElevation().getDegrees();
@@ -49,23 +54,23 @@ void callBack(const Interface* pUI, void* p)
    // display info
    if (pSim->projectile.isProjectileActive())
    {
-      gout << "Altitude:    " << pSim->projectile.getProjectilePosition().getPixelsY() << "m" << setprecision(1) << endl   // position y
-         << "Speed:       " << pSim->projectile.getProjectileVelocity().getSpeed() << "m/s" << setprecision(1) << endl          // muzzle velocity
-         << "Distance:    " << pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX() << "m" << setprecision(1) << endl   // position x
+      gout << "Altitude:    " << pSim->projectile.getProjectilePosition().getMetersY() << "m" << endl   // position y
+         << "Speed:       " << pSim->projectile.getProjectileVelocity().getSpeed() << "m/s" << endl          // muzzle velocity
+         << "Distance:    " << pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX() << "m" << endl   // position x
          << "Hang time:   " << pSim->projectile.getProjectileAge() << "s" << setprecision(1);                                   // timer starting when fired
       // handle collisions
-      // hit ground
-      if (!pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition())) {
-         pSim->projectile.reset();
-         cout << "Projectile hit the ground." << endl;
-      }
       // hit target
-      else if (pSim->ground.onPlatform(pSim->projectile.getProjectilePosition())) {
+      if (pSim->ground.onPlatform(pSim->projectile.getProjectilePosition())) {
          cout<< "Projectile hit the target!" << endl;
          // reset game
          pSim->projectile.reset();
          pSim->howitzer.generatePosition(pSim->upperRight);
          pSim->ground.reset(pSim->howitzer.getPosition());
+      }
+      // hit ground
+      else if (!pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition())) {
+         pSim->projectile.reset();
+         cout << "Projectile hit the ground." << endl;
       }
       else
       {

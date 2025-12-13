@@ -10,6 +10,7 @@
 #include "ground.h"   // for the Ground class definition
 #include "uiDraw.h"   // for random() and drawLine()
 #include <cassert>
+#include <cmath>
 
 const int WIDTH_HOWITZER = 14;
 
@@ -57,8 +58,8 @@ Position Ground::getTarget() const
 {
    assert(iTarget >= 0 && iTarget < posUpperRight.getPixelsX());
    Position posTarget;
-   posTarget.setPixelsX(iTarget);
-   posTarget.setPixelsY(ground[iTarget]);
+   posTarget.setMetersX(iTarget * posTarget.getZoom()); // convert pixels to meters explicitly
+   posTarget.setMetersY(ground[iTarget] * posTarget.getZoom());
    return posTarget;
 }
 
@@ -191,21 +192,38 @@ void Ground::draw(ogstream & gout) const
 
 bool Ground::onPlatform(const Position& pos) const
 {
-   // not on the platform if we are too high
-   if (getElevationMeters(pos) > 1.0)
-      return false;
+   Position target = getTarget();
 
-   // not on the platform if we hit the ground
-   if (getElevationMeters(pos) < 0.0)
+   std::cout << "Projectile X: " << pos.getPixelsX() << std::endl;
+   std::cout << "Target X: " << target.getPixelsX() << std::endl;
+   
+   // Check to see the distance between the projectile and target
+   double dx = fabs(pos.getPixelsX() - target.getPixelsX());
+   // More than this and it's too far off
+   if (dx > 8.0)
       return false;
+   
+   // Check to see the distance between the projectile and target
+   double dy = fabs(pos.getPixelsY() - target.getPixelsY());
+   // More than this and it's too far off
+   if (dy > 8.0)
+      return false;
+   
+   // not on the platform if we are too high
+//   if (getElevationMeters(pos) > 1.0)
+//      return false;
+//
+//   // not on the platform if we hit the ground
+//   if (getElevationMeters(pos) < 0.0)
+//      return false;
 
    //// not on the platform if we are too far left
-   //if (pos.getX() + projectileWidth / 2.0 < getTarget().getMetersX())
-      //return false;
+//   if (pos.getMetersX() + projectileWidth / 2.0 < getTarget().getMetersX())
+//      return false;
 
    //// not on the platform if we are too far right
-   //if (pos.getX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
-   //   return false;
+//   if (pos.getMetersX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
+//      return false;
 
    return true;
 }

@@ -141,8 +141,8 @@ void Projectile::advance(double simulationTime) {
       double t_curr = hangTime;
       double x_curr = posX;
       double y_curr = posY;
-      double y_prev = prevPvt.pos.getMetersX();
-      double x_prev = prevPvt.pos.getMetersY();
+      double y_prev = prevPvt.pos.getMetersY();
+      double x_prev = prevPvt.pos.getMetersX();
 
       // linear interpolation
       // Solve for t when y = 0
@@ -155,6 +155,8 @@ void Projectile::advance(double simulationTime) {
       //posY = 0; // our interpolation ensures y should be 0
       hangTime = t_hit; // the adjusted time for when y=0
       
+      flightPath.clear();
+      return;
    }
    else {
       // if hasn't hit ground, update "prev" trackers.
