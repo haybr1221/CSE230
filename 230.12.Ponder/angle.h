@@ -110,6 +110,6 @@ private:
  *******************************************************/
 inline std::ostream& operator << (std::ostream& out, const Angle& rhs)
 {
-   out << rhs.getDegrees() << "degree";
+   out << rhs.getDegrees() << " degrees";
    return out;
 }

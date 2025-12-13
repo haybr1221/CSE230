@@ -45,6 +45,10 @@ public:
    Velocity getProjectileVelocity();
    double getProjectileAge();
    void draw(ogstream &gout);
+   double getRadius() { return radius; };
+   double getDiameter() { return radius * 2; }
+   double getMass() { return mass; };
+   
 
 private:
 

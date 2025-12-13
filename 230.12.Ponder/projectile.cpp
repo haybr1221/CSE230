@@ -64,7 +64,7 @@ void Projectile::draw(ogstream &gout) {
    
    for (auto bullet = flightPath.rbegin(); bullet != flightPath.rend(); bullet++) {
       gout.drawProjectile(bullet->pos, firstBulletTime-bullet->t);
-      cout << bullet->t - firstBulletTime << endl;
+      //cout << bullet->t - firstBulletTime << endl;
       
    }
 }

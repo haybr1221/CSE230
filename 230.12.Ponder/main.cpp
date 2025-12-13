@@ -54,9 +54,10 @@ void callBack(const Interface* pUI, void* p)
    // display info
    if (pSim->projectile.isProjectileActive())
    {
-      gout << "Altitude:    " << pSim->projectile.getProjectilePosition().getMetersY() << "m" << endl   // position y
+      Position pPos = pSim->projectile.getProjectilePosition();
+      gout << "Altitude:    " << pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition()) << "m" << endl   // position y
          << "Speed:       " << pSim->projectile.getProjectileVelocity().getSpeed() << "m/s" << endl          // muzzle velocity
-         << "Distance:    " << pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX() << "m" << endl   // position x
+         << "Distance:    " << abs(pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX()) << "m" << endl   // position x
          << "Hang time:   " << pSim->projectile.getProjectileAge() << "s" << setprecision(1);                                   // timer starting when fired
       // handle collisions
       // hit target
@@ -68,9 +69,17 @@ void callBack(const Interface* pUI, void* p)
          pSim->ground.reset(pSim->howitzer.getPosition());
       }
       // hit ground
-      else if (!pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition())) {
+      else if (pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition())<0) {
          pSim->projectile.reset();
          cout << "Projectile hit the ground." << endl;
+         
+      }
+      // if outside X boundaries
+      else if (pSim->projectile.getProjectilePosition().getPixelsX() < 0 || 
+               pSim->projectile.getProjectilePosition().getPixelsX() > pSim->upperRight.getPixelsX())
+      {
+         pSim->projectile.reset();
+         cout << "Projectile out of bounds." << endl;
       }
       else
       {
@@ -91,7 +100,7 @@ void callBack(const Interface* pUI, void* p)
    // right (clockwise)
    if (pUI->isRight()) 
    {
-      cout << "Pressed Right." << endl;
+      //cout << "Pressed Right." << endl;
       if (degrees < 90 || degrees > 180) // 180 so it won't get stuck just past 270
       {
          pSim->howitzer.rotate(LEFTRIGHT_RADS); // radians for left/right
@@ -102,7 +111,7 @@ void callBack(const Interface* pUI, void* p)
    // left (counterclockwise)
    if (pUI->isLeft()) 
    {
-      cout << "Pressed Left." << endl;
+      //cout << "Pressed Left." << endl;
       if (degrees < 180 || degrees > 270) // 180 to prevent sticking at just past 90
       {
          pSim->howitzer.rotate(-LEFTRIGHT_RADS); // radians for left/right
@@ -113,7 +122,7 @@ void callBack(const Interface* pUI, void* p)
    // up
    if (pUI->isUp())
    {
-      cout << "Pressed Up." << endl;
+      //cout << "Pressed Up." << endl;
       // counterclockwise ("left")
       if (degrees < 180) // 180 to prevent sticking at just past 90
       {
@@ -128,7 +137,7 @@ void callBack(const Interface* pUI, void* p)
    // down
    if (pUI->isDown())
    {
-      cout << "Pressed Down." << endl;
+      //cout << "Pressed Down." << endl;
       // counterclockwise ("left")
       if (degrees > 270) // 180 to prevent sticking at just past 90
       {

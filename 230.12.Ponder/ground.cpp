@@ -40,14 +40,13 @@ Ground::Ground(const Position & posUpperRight) :
  ************************************************************************/
 double Ground::getElevationMeters(const Position& pos) const
 {
-   Position posImpact(pos);
-
-   if (pos.getPixelsX() >= 0.0 && pos.getPixelsX() < (int)posUpperRight.getPixelsX())
-      posImpact.setPixelsY(ground[(int)pos.getPixelsX()]);
+   if (pos.getPixelsX() >= 0.0 && pos.getPixelsX() < posUpperRight.getPixelsX()) {
+      Position a;
+      a.setPixelsY(pos.getPixelsY() - ground[(int)pos.getPixelsX()]);
+      return a.getMetersY();
+   }
    else
-      posImpact.setPixelsY(0.0);
-
-   return posImpact.getMetersY();
+      return 0.0;
 }
 
 /************************************************************************
@@ -194,8 +193,8 @@ bool Ground::onPlatform(const Position& pos) const
 {
    Position target = getTarget();
 
-   std::cout << "Projectile X: " << pos.getPixelsX() << std::endl;
-   std::cout << "Target X: " << target.getPixelsX() << std::endl;
+   //std::cout << "Projectile X: " << pos.getPixelsX() << std::endl;
+   //std::cout << "Target X: " << target.getPixelsX() << std::endl;
    
    // Check to see the distance between the projectile and target
    double dx = fabs(pos.getPixelsX() - target.getPixelsX());
@@ -208,22 +207,6 @@ bool Ground::onPlatform(const Position& pos) const
    // More than this and it's too far off
    if (dy > 8.0)
       return false;
-   
-   // not on the platform if we are too high
-//   if (getElevationMeters(pos) > 1.0)
-//      return false;
-//
-//   // not on the platform if we hit the ground
-//   if (getElevationMeters(pos) < 0.0)
-//      return false;
-
-   //// not on the platform if we are too far left
-//   if (pos.getMetersX() + projectileWidth / 2.0 < getTarget().getMetersX())
-//      return false;
-
-   //// not on the platform if we are too far right
-//   if (pos.getMetersX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
-//      return false;
 
    return true;
 }
