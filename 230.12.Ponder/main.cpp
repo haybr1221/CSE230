@@ -41,16 +41,7 @@ void callBack(const Interface* pUI, void* p)
    
    // set stats
    gout = pos;
-   gout << "Angle: " << 0.0 << "degrees" << setprecision(1) << endl;     // angle the Howitzer is pointing
-   
-//   if (pUI->)
-   {
-      // fired, set new stats
-      gout << "Altitude:    " << pSim->howitzer.getPosition().getPixelsY() << "m\n" << setprecision(1) << endl   // position y
-           << "Speed:       " << pSim->howitzer.getMuzzleVelocity() << "m/s" << setprecision(1) << endl          // muzzle velocity
-           << "Distance:    " << pSim->howitzer.getPosition().getPixelsX() << "m"   << setprecision(1) << endl   // position x
-           << "Hang time:   " << 0.0 << "s"   << setprecision(1);                                   // timer starting when fired
-   }
+   gout << "Angle: " << pSim->howitzer.getElevation() << setprecision(1) << endl;     // angle the Howitzer is pointing
    
     //// INPUTS TO ADJUST ANGLE
    // space
@@ -58,20 +49,26 @@ void callBack(const Interface* pUI, void* p)
    {
       // fire bullet?
       cout << "Pressed Space. Fire" << endl;
-      // Reset
-      //pSim->ground.reset();
+      gout << "Altitude:    " << pSim->howitzer.getPosition().getPixelsY() << "m" << setprecision(1) << endl   // position y
+      << "Speed:       " << pSim->howitzer.getMuzzleVelocity() << "m/s" << setprecision(1) << endl          // muzzle velocity
+      << "Distance:    " << pSim->howitzer.getPosition().getPixelsX() << "m"   << setprecision(1) << endl   // position x
+      << "Hang time:   " << 0.0 << "s"   << setprecision(1);                                   // timer starting when fired
    }
+   
+   double degrees = pSim->howitzer.getElevation().getDegrees();
    // right
    if (pUI->isRight()) 
    {
       cout << "Pressed Right." << endl;
-      pSim->howitzer.rotate(LEFTRIGHT_RADS); // radians for left/right
+      if (degrees < 90 || degrees > 270)
+         pSim->howitzer.rotate(LEFTRIGHT_RADS); // radians for left/right
    }
    // left
    if (pUI->isLeft()) 
    {
       cout << "Pressed Left." << endl;
-      pSim->howitzer.rotate(-LEFTRIGHT_RADS); // radians for left/right
+      if (degrees < 90 || degrees > 270)
+         pSim->howitzer.rotate(-LEFTRIGHT_RADS); // radians for left/right
    }
    // up
    if (pUI->isUp())
