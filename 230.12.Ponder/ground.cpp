@@ -188,3 +188,24 @@ void Ground::draw(ogstream & gout) const
       gout << (int)(pos.getMetersY()) << "m";
    }
 }
+
+bool Ground::onPlatform(const Position& pos) const
+{
+   // not on the platform if we are too high
+   if (getElevationMeters(pos) > 1.0)
+      return false;
+
+   // not on the platform if we hit the ground
+   if (getElevationMeters(pos) < 0.0)
+      return false;
+
+   //// not on the platform if we are too far left
+   //if (pos.getX() + projectileWidth / 2.0 < getTarget().getMetersX())
+      //return false;
+
+   //// not on the platform if we are too far right
+   //if (pos.getX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
+   //   return false;
+
+   return true;
+}

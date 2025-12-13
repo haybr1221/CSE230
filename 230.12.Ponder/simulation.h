@@ -11,6 +11,7 @@
 #include "position.h"
 #include "ground.h"
 #include "howitzer.h"
+#include "projectile.h"
 
 
  /*********************************************
@@ -25,9 +26,13 @@ public:
       howitzer.generatePosition(posUpperRight);
       ground = Ground(posUpperRight);
       ground.reset(howitzer.getPosition());
+      projectile = Projectile();
+      simulationTime = 0.5; // half a second
    }
 
    Position upperRight;
    Ground ground;
    Howitzer howitzer;
+   Projectile projectile;
+   double simulationTime;
 };

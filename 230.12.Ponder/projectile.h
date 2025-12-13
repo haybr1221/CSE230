@@ -39,9 +39,12 @@ public:
 
    // advance the round forward until the next unit of time
    void advance(double simulationTime);
-
-
-
+   // whether a bullet is in the air already
+   bool isProjectileActive() { return !(flightPath.empty()); };
+   Position getProjectilePosition();
+   Velocity getProjectileVelocity();
+   double getProjectileAge();
+   void draw(ogstream &gout);
 
 private:
 

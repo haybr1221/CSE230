@@ -41,6 +41,9 @@ public:
    // where the the target located?
    Position getTarget() const;
 
+   // have we hit the ground yet?
+   bool onPlatform(const Position& pos) const;
+
 private:
    double * ground;               // elevation of the ground, in pixels 
    int iTarget;                   // the location of the target, in pixels

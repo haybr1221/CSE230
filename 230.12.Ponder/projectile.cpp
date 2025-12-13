@@ -22,9 +22,9 @@ void Projectile::reset()
    flightPath = {};
 }
 
-void Projectile::fire(const Position& pos, double simulationTime, double angle, double muzzleVelocity)
+void Projectile::fire(const Position& pos, double simulationTime, double angleDegrees, double muzzleVelocity)
 {
-   Angle a_angle(angle);
+   Angle a_angle(angleDegrees);
    Velocity vel;
    vel.set(a_angle, muzzleVelocity);
    
@@ -35,6 +35,38 @@ void Projectile::fire(const Position& pos, double simulationTime, double angle, 
    pvt.t = simulationTime;
    
    flightPath.push_back(pvt);
+}
+
+Position Projectile::getProjectilePosition() {
+   if (isProjectileActive()) 
+      return flightPath.back().pos; 
+   else 
+      throw "Position Error: Flight path blank.";
+}
+
+Velocity Projectile::getProjectileVelocity() {
+   if (flightPath.size() > 0)
+      return flightPath.back().v;
+   else
+      throw "Velocity Error: Flight path blank.";
+}
+
+double Projectile::getProjectileAge() {
+   if (isProjectileActive())
+      return flightPath.back().t;
+   else
+      throw "Age Error: Flight path blank.";
+}
+
+// draw the projectile and trail
+void Projectile::draw(ogstream &gout) {
+   double firstBulletTime = flightPath.back().t;
+   
+   for (auto bullet = flightPath.rbegin(); bullet != flightPath.rend(); bullet++) {
+      gout.drawProjectile(bullet->pos, firstBulletTime-bullet->t);
+      cout << bullet->t - firstBulletTime << endl;
+      
+   }
 }
 
 void Projectile::advance(double simulationTime) {
@@ -55,8 +87,7 @@ void Projectile::advance(double simulationTime) {
    double dragCoeff = dragFromMach(mach);
 
    double dragForce = forceFromDrag(airDensity, dragCoeff, radius, prevPvt.v.getSpeed());
-   /*double dragForceX = forceFromDrag(airDensity, dragCoeff, radius, prevPvt.v.getDX());
-   double dragForceY = forceFromDrag(airDensity, dragCoeff, radius, prevPvt.v.getDY());*/
+
    // drag acceleration
    double accDrag = accelerationFromForce(dragForce,mass);
    
@@ -70,15 +101,7 @@ void Projectile::advance(double simulationTime) {
    // time
    double hangTime = prevPvt.t;
 
-   // velocity components (Don't need because they're already in currentPvt.v)
-   ////dx = sin(rads) * velocity
-   //velX = sin(angleRad) * velocity;
-   ////dy = cos(rads) * velocity
-   //velY = cos(angleRad) * currentPvt.;
-
    // new pos 
-   // 
-   // 
    /*
    s = s0 + v t + ½ a t2
 
@@ -88,6 +111,7 @@ void Projectile::advance(double simulationTime) {
       t = time(s)
       a = acceleration(m / s2)
    */
+
    // x = x + velX*time + 0.5 * accX * time^2
    //double posX = prevPvt.pos.getMetersX() + ( prevPvt.v.getDX() * timeStep) + (0.5 * accX * (timeStep * timeStep) );
    double posX = positionFromAcceleration(prevPvt.pos.getMetersX(), prevPvt.v.getDX(), timeStep, accX);
@@ -139,7 +163,9 @@ void Projectile::advance(double simulationTime) {
    };
    currPvt.t = hangTime;
    currPvt.v = velocity;
-   
+   if (flightPath.size() > 19) {
+      flightPath.pop_front();
+   }
    flightPath.push_back(currPvt);
    
 }

@@ -43,54 +43,107 @@ void callBack(const Interface* pUI, void* p)
    gout = pos;
    gout << "Angle: " << pSim->howitzer.getElevation() << setprecision(1) << endl;     // angle the Howitzer is pointing
    
-    //// INPUTS TO ADJUST ANGLE
-   // space
-   if (pUI->isSpace())
-   {
-      // fire bullet?
-      cout << "Pressed Space. Fire" << endl;
-      gout << "Altitude:    " << pSim->howitzer.getPosition().getPixelsY() << "m" << setprecision(1) << endl   // position y
-      << "Speed:       " << pSim->howitzer.getMuzzleVelocity() << "m/s" << setprecision(1) << endl          // muzzle velocity
-      << "Distance:    " << pSim->howitzer.getPosition().getPixelsX() << "m"   << setprecision(1) << endl   // position x
-      << "Hang time:   " << 0.0 << "s"   << setprecision(1);                                   // timer starting when fired
-   }
-   
+   // howitzer angle in degrees
    double degrees = pSim->howitzer.getElevation().getDegrees();
-   // right
+
+   // display info
+   if (pSim->projectile.isProjectileActive())
+   {
+      gout << "Altitude:    " << pSim->projectile.getProjectilePosition().getPixelsY() << "m" << setprecision(1) << endl   // position y
+         << "Speed:       " << pSim->projectile.getProjectileVelocity().getSpeed() << "m/s" << setprecision(1) << endl          // muzzle velocity
+         << "Distance:    " << pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX() << "m" << setprecision(1) << endl   // position x
+         << "Hang time:   " << pSim->projectile.getProjectileAge() << "s" << setprecision(1);                                   // timer starting when fired
+      // handle collisions
+      // hit ground
+      if (!pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition())) {
+         pSim->projectile.reset();
+         cout << "Projectile hit the ground." << endl;
+      }
+      // hit target
+      else if (pSim->ground.onPlatform(pSim->projectile.getProjectilePosition())) {
+         cout<< "Projectile hit the target!" << endl;
+         // reset game
+         pSim->projectile.reset();
+         pSim->howitzer.generatePosition(pSim->upperRight);
+         pSim->ground.reset(pSim->howitzer.getPosition());
+      }
+      else
+      {
+         // if not collided:
+         pSim->projectile.advance(pSim->projectile.getProjectileAge()+pSim->simulationTime);
+      }
+      
+      
+   }
+   else if (pUI->isSpace())
+   {
+      pSim->projectile.fire(pSim->howitzer.getPosition(), pSim->simulationTime, degrees, pSim->howitzer.getMuzzleVelocity());
+      cout << "Pressed Space. Fired." << endl;
+   }
+
+   //// INPUTS TO ADJUST ANGLE
+
+   // right (clockwise)
    if (pUI->isRight()) 
    {
       cout << "Pressed Right." << endl;
-      if (degrees < 90 || degrees > 270)
+      if (degrees < 90 || degrees > 180) // 180 so it won't get stuck just past 270
+      {
          pSim->howitzer.rotate(LEFTRIGHT_RADS); // radians for left/right
+         degrees = pSim->howitzer.getElevation().getDegrees();
+      }
    }
-   // left
+
+   // left (counterclockwise)
    if (pUI->isLeft()) 
    {
       cout << "Pressed Left." << endl;
-      if (degrees < 90 || degrees > 270)
+      if (degrees < 180 || degrees > 270) // 180 to prevent sticking at just past 90
+      {
          pSim->howitzer.rotate(-LEFTRIGHT_RADS); // radians for left/right
+         degrees = pSim->howitzer.getElevation().getDegrees();
+      }
    }
+
    // up
    if (pUI->isUp())
    {
       cout << "Pressed Up." << endl;
-      // negative UPDOWN_RADS (counterclockwise) if on the right side, else negative (clockwise on left)
-      double dirRads = pSim->howitzer.getElevation().getRadians() < M_PI ? -UPDOWN_RADS : UPDOWN_RADS;
-      pSim->howitzer.rotate(dirRads); // radians for left/right
+      // counterclockwise ("left")
+      if (degrees < 180) // 180 to prevent sticking at just past 90
+      {
+         pSim->howitzer.rotate(-UPDOWN_RADS); // radians for left/right
+         degrees = pSim->howitzer.getElevation().getDegrees();
+      }
+      // clockwise ("right")
+      else if (degrees > 180)
+         pSim->howitzer.rotate(UPDOWN_RADS);
    }
+
    // down
    if (pUI->isDown())
    {
       cout << "Pressed Down." << endl;
-      // positive UPDOWN_RADS if on the right side, else negative
-      double dirRads = pSim->howitzer.getElevation().getRadians() < M_PI ? UPDOWN_RADS : -UPDOWN_RADS;
-      pSim->howitzer.rotate( dirRads ); // radians for left/right
+      // counterclockwise ("left")
+      if (degrees > 270) // 180 to prevent sticking at just past 90
+      {
+         pSim->howitzer.rotate(-UPDOWN_RADS); // radians for left/right
+         degrees = pSim->howitzer.getElevation().getDegrees();
+      }
+      // clockwise ("right")
+      else if (degrees < 90)
+      {
+         pSim->howitzer.rotate(UPDOWN_RADS);
+         degrees = pSim->howitzer.getElevation().getDegrees();
+      }
    }
-
-   
+   if (pSim->projectile.isProjectileActive())
+      pSim->projectile.draw(gout);
    // draw ground
    pSim->ground.draw(gout);
-   pSim->howitzer.draw(gout,100); // temp 100 for testing
+   double flightTime = pSim->projectile.isProjectileActive() ? pSim->projectile.getProjectileAge() : 100.0;
+   pSim->howitzer.draw(gout,flightTime); // temp 100 for testing
+   
 }
 
 double Position::metersFromPixels = 40.0;
