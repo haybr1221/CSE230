@@ -54,7 +54,7 @@ void callBack(const Interface* pUI, void* p)
    // display info
    if (pSim->projectile.isProjectileActive())
    {
-      Position pPos = pSim->projectile.getProjectilePosition();
+      // Display projectile stats
       gout << "Altitude:    " << pSim->ground.getElevationMeters(pSim->projectile.getProjectilePosition()) << "m" << endl   // position y
          << "Speed:       " << pSim->projectile.getProjectileVelocity().getSpeed() << "m/s" << endl          // muzzle velocity
          << "Distance:    " << abs(pSim->projectile.getProjectilePosition().getMetersX()-pSim->howitzer.getPosition().getMetersX()) << "m" << endl   // position x
